@@ -20,7 +20,7 @@ impl Model for AppData {
 
 fn main() {
     Application::new(|cx| {
-        AppData { count: 0 }.build(cx);
+        AppData { count: 0, index: 0 }.build(cx);
         HStack::new(cx, |cx| {
             Button::new(
                 cx,

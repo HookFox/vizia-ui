@@ -33,7 +33,10 @@ jobs:
 
       - name: Get the release version from the tag
         shell: bash
-        run: echo "VERSION=$\{GITHUB_REF#refs/tags/\}" >> $GITHUB_ENV
+        run: |
+         VERSION="$(cat Cargo.toml | grep 'version =' -m 1 | sed 's@version =@@' | xargs)"
+         echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+         echo "::notice::publish build version $VERSION"
 
       - name: Install Rust
         # Or @nightly if you want
