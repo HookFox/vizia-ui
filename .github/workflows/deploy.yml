@@ -80,3 +80,5 @@ jobs:
         with:
           files: |
             $\{\{ env.ASSET \}\}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
