@@ -31,14 +31,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Get the release version from the tag
+      - name: Get the release version from the Cargo.toml
         shell: bash
         run: |
          VERSION="$(cat Cargo.toml | grep 'version =' -m 1 | sed 's@version =@@' | xargs)"
          NAME="$(cat Cargo.toml | grep 'name =' -m 1 | sed 's@name =@@' | xargs)"
          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
          echo "RELEASE_NAME=$NAME" >> $GITHUB_ENV
-         echo "::notice::publish build version $VERSION"
+         echo "::notice::publish $NAME build version $VERSION"
 
       - name: Install Rust
         # Or @nightly if you want
@@ -82,5 +82,6 @@ jobs:
         with:
           files: |
             ${{ env.ASSET }}
+          tag_name: ${{ env.RELEASE_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
