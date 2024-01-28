@@ -35,7 +35,9 @@ jobs:
         shell: bash
         run: |
          VERSION="$(cat Cargo.toml | grep 'version =' -m 1 | sed 's@version =@@' | xargs)"
+         NAME="$(cat Cargo.toml | grep 'name =' -m 1 | sed 's@name =@@' | xargs)"
          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+         echo "RELEASE_NAME=$NAME" >> $GITHUB_ENV
          echo "::notice::publish build version $VERSION"
 
       - name: Install Rust
@@ -57,7 +59,7 @@ jobs:
         shell: bash
         run: |
           # Replace with the name of your binary
-          binary_name="ui"
+          binary_name="${{env.RELEASE_NAME}}"
 
           dirname="$binary_name-${{ env.RELEASE_VERSION }}-${{ matrix.target }}"
           mkdir "$dirname"
